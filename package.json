@@ -1,0 +1,66 @@
+{
+    "name": "clyphx-lang",
+    "displayName": "clyphx-lang",
+    "description": "",
+    "version": "0.0.1",
+    "scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint . --ext .ts,.tsx",
+		"watch": "tsc -watch -p ./"
+	},
+    "engines": {
+        "vscode": "^1.59.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "main": "./out/extension.js",
+    "activationEvents": [
+		"*"
+	],
+    "contributes": {
+        "commands": [
+            {
+              "command": "clyphx.runLine",
+              "title": "Run Line",
+              "when": "editorLangId == clyphx"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "clyphx.runLine",
+                "key": "ctrl+enter",
+                "mac": "cmd+enter"
+            }
+        ],
+        "languages": [
+            {
+                "id": "clyphx",
+                "aliases": [
+                    "ClyphX",
+                    "clyphx"
+                ],
+                "extensions": [
+                    ".cly"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "clyphx",
+                "scopeName": "source.cly",
+                "path": "./syntaxes/clyphx.tmLanguage.json"
+            }
+        ]
+    },
+    "devDependencies": {
+        "@types/node": "^12.12.0",
+        "@types/vscode": "^1.32.0",
+        "@typescript-eslint/eslint-plugin": "^4.16.0",
+        "@typescript-eslint/parser": "^4.16.0",
+        "eslint": "^7.21.0",
+        "typescript": "^4.3.5"
+    }
+}

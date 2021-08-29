@@ -1,0 +1,131 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "ClyphX",
+	"patterns": [
+		{ "include": "#keywords" },
+		{ "include": "#commands" },
+		{ "include": "#operators" },
+		{ "include": "#functions" },
+		{ "include": "#refs" },
+		{ "include": "#chan" },
+		{ "include": "#test" },
+		{ "include": "#ramp" },
+		{ "include": "#comment" }
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "support.function.clyphx",
+				"match": "\\b(RAMP|BARS|BAR|CC|NOTE|ON|OFF|RESET|NONE)\\b"
+			}]
+		},
+		"numbers": {
+			"patterns": [{
+				"name": "constant.numeric.clyphx",
+    			"match": "\\s([-*])?[0-9]+(\\.[0-9]+)?(?!/)\\b"
+			},{
+				"match": "(?<=\\s)([<*>][0-9]+(\\.[0-9]+)?\\b)",
+				"name" : "constant.numeric.clyphx" 
+			},{
+				"match": "[<>]",
+				"name" : "constant.numeric.clyphx" 
+			},{
+				"name": "constant.numeric.clyphx.ts",
+				"match": "\\b[0-9]+/[0-9]+[TD]?\\b"
+			}]
+		},
+		"refs": {
+			"patterns": [{
+				"name": "constant.language.clyphx",
+				"match": "\\b(CHAIN[\\d]+)\\b"
+			},{
+				"name": "constant.language.clyphx",
+				"match": "\\bCS(([\\d]+)|(?=\"))\\b"
+			},{
+				"name": "constant.language.clyphx",
+				"match": "\\bARSENAL_[\\w]+\\b"
+			},{
+				"name": "constant.language.clyphx",
+				"match": "\\b(SEL|MST)\\b"
+			}]
+		},
+		"operators": {
+			"patterns": [{
+				"name": "keyword.operator.clyphx",
+				"match": "[+]"
+			}]
+		},
+		"functions": {
+			"patterns": [{
+				"match": "\\b(RND)([0-9]+-[0-9]+)?\\b",
+				"captures": {
+					"1": { "name": "support.function.clyphx" },
+					"2": { "name": "constant.numeric" }
+				}
+			}]
+		},
+		"chan": {
+			"begin": "((((\\b(MST|SEL|[A-Z]|[0-9]+))|([\"“][\\w\\s]+[\"”])|([<>][0-9]*))-)?((\\b(MST|ALL|SEL|[A-Z]|[0-9]+))|([\"“][\\w\\s]+[\"”])|([<>][0-9]*))\\/)(ADDCLIP|ARM|CUE|DEL|DELDEV|DUPE|FOLD|IN|INSUB|JUMP|MON|MUTE|NAME|OUT|OUTSUB|PAN|PLAY|RENAMEALL|SEL|SEND|SNAP|SOLO|STOP|VOL|FADE|(CLIP[0-9]*))?",
+				"beginCaptures": {
+					"1": { "name": "constant.language.clyphx"},
+					"0": { "name": "keyword.control.clyphx"}
+				},
+				"end": "[,;\n]",
+				"patterns": [
+						{ "include": "#numbers" },
+						{ "include": "#operators" },
+						{ "include": "#keywords" },
+						{ "include": "#functions" },
+						{ "include": "#strings" },
+						{ "include": "#refs" },
+						{ "include": "#ramp" },
+						{ "include": "#comment" }
+				]
+		},
+		"strings": {
+			"name": "string.quoted.double.clyphx",
+			"begin": "[\"“]",
+			"end": "[\"”\n]",
+			"patterns": [
+				{
+					"name": "constant.character.escape.clyphx",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comment": {
+			"name": "comment.line.number-sign.clyphx",
+			"begin": "#",
+			"end": "\n"
+		},
+		"ramp": {
+			"name": "string.interpolated.clyphx",
+			"begin": "\\(",
+			"end": "[\\)\n]",
+			"patterns": [
+				{
+					"name": "support.function.clyphx",
+					"match": "\\b(to|in)\\b"
+				}
+			]
+		},
+		"test": {
+			"begin": "\\b(MIDI|LOOP|SEL|MXT|SETLOC|JUMP|ADDCLIP|B2A|INSAUDIO|PLAY|CUE|PLAYL|PLAYQ|FOCDETAIL|SREC|DEVFIRST|FOLD|LOC|LOADM4L|LEFT|IN|STOP|XFADE|OUT|LOCLOOP|HZOOM|TGLBRWSR|ARM|MUTE|RQ|PUSH|ADDMIDI|STOPALL|SHOWDETAIL|UNMUTE|TAPBPM|PXT|CLIP|SETCONT|SETJUMP|DELSCENE|SATM|SWING|DUPE|SETFOLD|PLAYLQ|DUMMY|SETSTOP|REC|PIN|TGLMAIN|PAN|LOOPER|ADDSCENE|UNSOLO|RENAMEALL|DR|LOADDEV|OUTSUB|METRO|SEND|NAME|SIG|VOL|SWAP|DUPESCENE|SHOWCLIP|DEVLEFT|BPM|FOCMAIN|RTRIG|ADDRETURN|GRV|PSEQ|ADDAUDIO|UNARM|DELDEV|RPT|REDO|RESTART|SHOWDEV|SCENE|XFADER|SRECFIX|GQ|DEL|SNAP|DEBUG|MON|OVER|INSUB|ACTION|TGLDETAIL|DEV|FOCBRWSR|SOLO|POUT)(?![/-])\\b",
+			"beginCaptures": {
+				"0": { "name": "keyword.control.clyphx"}
+			},
+			"end": "[,;\n]",
+			"patterns": [
+				{ "include": "#numbers" },
+				{ "include": "#operators" },
+				{ "include": "#keywords" },
+				{ "include": "#functions" },
+				{ "include": "#strings" },
+				{ "include": "#refs" },
+				{ "include": "#ramp" },
+				{ "include": "#comment" }
+			]
+		}
+	},
+	"scopeName": "source.cly"
+}
